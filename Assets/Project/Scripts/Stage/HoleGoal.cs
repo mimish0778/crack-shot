@@ -95,7 +95,9 @@ namespace CrackShot
             ScoreManager.Instance?.StopTimer();
             GameManager.Instance?.ChangeState(GameManager.GameState.StageClear);
             AudioManager.Instance?.PlayTeleport();
-            ScoreManager.Instance?.SaveBestScore(GameManager.Instance?.SelectedStageIndex ?? 0);
+            int clearedStageIndex = GameManager.Instance?.SelectedStageIndex ?? 0;
+            ScoreManager.Instance?.SaveBestScore(clearedStageIndex);
+            ScoreManager.Instance?.SubmitRanking(clearedStageIndex);
 
             ball.Freeze();
 

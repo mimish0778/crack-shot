@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using unityroom.Api;
 
 namespace CrackShot
 {
@@ -118,6 +119,26 @@ namespace CrackShot
             int seconds = (int)(time % 60);
             int millis = (int)((time % 1) * 100);
             return $"{minutes:00}:{seconds:00}.{millis:00}";
+        }
+
+        // unityroom ランキング用の合成スコア。打数を整数部、ゲーム内タイマー(MM:SS.cc)を小数6桁に詰める。
+        // 例: 2打 / 00:07.27 → 2.000727。打数が少ない順 → 同打数はタイムが短い順、で「小さいほど上位」になる。
+        public static float CalcRankingScore(int shots, float time)
+        {
+            int totalCentis = Mathf.Clamp(Mathf.RoundToInt(time * 100f), 0, (int)(MaxTime * 100f));
+            int minutes = totalCentis / 6000;
+            int seconds = (totalCentis / 100) % 60;
+            int centis = totalCentis % 100;
+            int mmsscc = minutes * 10000 + seconds * 100 + centis;
+            return shots + mmsscc / 1_000_000f;
+        }
+
+        // ステージインデックス(0始まり)に対応するボード(1始まり)へ、今回の打数＋タイムを送信する。
+        // 昇順ボード(HighScoreAsc)なのでサーバー側が自動でベストのみ保持する。
+        public void SubmitRanking(int stageIndex)
+        {
+            UnityroomApiClient.Instance?.SendScore(
+                stageIndex + 1, CalcRankingScore(ShotCount, ElapsedTime), ScoreboardWriteMode.HighScoreAsc);
         }
     }
 }
