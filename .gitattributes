@@ -1,0 +1,79 @@
+# 既定: テキストは自動判定し、リポジトリ内は LF に正規化する。
+* text=auto
+
+#############################
+# ソースコード / テキスト (作業ツリーも LF に固定 = .editorconfig と一致)
+#############################
+*.cs        text eol=lf diff=csharp
+*.shader    text eol=lf
+*.cginc     text eol=lf
+*.hlsl      text eol=lf
+*.compute   text eol=lf
+*.asmdef    text eol=lf
+*.asmref    text eol=lf
+*.json      text eol=lf
+*.xml       text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.uss       text eol=lf
+*.uxml      text eol=lf
+*.md        text eol=lf
+*.txt       text eol=lf
+*.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+
+#############################
+# Unity が生成する YAML 資産: LF 固定 + スマートマージ
+# (unityyamlmerge を git config に設定すると有効。未設定でも通常マージにフォールバック)
+#############################
+*.meta           text eol=lf merge=unityyamlmerge
+*.unity          text eol=lf merge=unityyamlmerge
+*.asset          text eol=lf merge=unityyamlmerge
+*.prefab         text eol=lf merge=unityyamlmerge
+*.mat            text eol=lf merge=unityyamlmerge
+*.anim           text eol=lf merge=unityyamlmerge
+*.controller     text eol=lf merge=unityyamlmerge
+*.overrideController text eol=lf merge=unityyamlmerge
+*.physicMaterial text eol=lf merge=unityyamlmerge
+*.physicsMaterial2D text eol=lf merge=unityyamlmerge
+*.playable       text eol=lf merge=unityyamlmerge
+*.mask           text eol=lf merge=unityyamlmerge
+*.spriteatlas    text eol=lf merge=unityyamlmerge
+*.terrainlayer   text eol=lf merge=unityyamlmerge
+*.preset         text eol=lf merge=unityyamlmerge
+*.lighting       text eol=lf merge=unityyamlmerge
+
+#############################
+# バイナリ資産: 差分・マージ・正規化の対象外
+#############################
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.tga   binary
+*.tif   binary
+*.tiff  binary
+*.psd   binary
+*.exr   binary
+*.hdr   binary
+*.fbx   binary
+*.obj   binary
+*.blend binary
+*.dae   binary
+*.3ds   binary
+*.wav   binary
+*.mp3   binary
+*.ogg   binary
+*.aif   binary
+*.aiff  binary
+*.flac  binary
+*.ttf   binary
+*.otf   binary
+*.dll   binary
+*.so    binary
+*.dylib binary
+*.a     binary
+*.cubemap     binary
+*.unitypackage binary
