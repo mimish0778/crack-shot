@@ -3,7 +3,8 @@
     "rootNamespace": "CrackShot",
     "references": [
         "UnityEngine.UI",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "unityroom"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
