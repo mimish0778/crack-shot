@@ -1275,14 +1275,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fe73f4ecdf9a744a1752d565af4b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageNameText: {fileID: 1575714343}
   parText: {fileID: 2044396682}
   shotCountText: {fileID: 139275051}
   timerText: {fileID: 1562128857}
   labelText: {fileID: 1476556710}
-  stageNameText: {fileID: 1575714343}
   itemInterval: 0.3
   fadeInTime: 0.3
   scoreDelay: 0.3
+  initialRevealDelay: 0.3
+  buttonRevealInterval: 0.1
+  decodeNoiseInterval: 0.012
+  decodeConfirmInterval: 0.015
   labelPunchScale: 1.6
   labelPunchTime: 0.18
   labelSettleTime: 0.28
@@ -1346,7 +1350,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00:00
+  m_text: 000.000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d5e0b061f14018f4daeea9a9df7dde3e, type: 2}
   m_sharedMaterial: {fileID: -192829082850178336, guid: d5e0b061f14018f4daeea9a9df7dde3e, type: 2}

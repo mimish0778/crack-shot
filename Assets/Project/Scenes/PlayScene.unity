@@ -1107,7 +1107,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00:00
+  m_text: 000.000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d5e0b061f14018f4daeea9a9df7dde3e, type: 2}
   m_sharedMaterial: {fileID: -192829082850178336, guid: d5e0b061f14018f4daeea9a9df7dde3e, type: 2}
@@ -2226,8 +2226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a634318c4bc006b4db8567026fe8538a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotCountText: {fileID: 1188438837}
   parText: {fileID: 1826449780}
+  shotCountText: {fileID: 1188438837}
   timerText: {fileID: 383793672}
   failedMessageText: {fileID: 1093655031}
   selectButton: {fileID: 151576167}
@@ -3160,6 +3160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDragDistance: 7
   dragPlaneY: 0.5
+  grabMaxDistance: 1.5
+  minDragToShoot: 0.05
   arrowSegments: 20
   arrowWidthStart: 0.2
   arrowWidthEnd: 0.05
