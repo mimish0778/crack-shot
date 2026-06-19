@@ -14,7 +14,9 @@ namespace CrackShot
         {
             if (Instance != null && Instance != this && !ReplaceOnDuplicate)
             {
-                Destroy(gameObject);
+                // 永続シングルトンの重複は、子のマネージャー単体ではなくルートごと破棄する。
+                // (PersistentManagers を再生成するシーンに戻った際、Canvas/EventSystem が残って二重化するのを防ぐ)
+                Destroy(Persistent ? transform.root.gameObject : gameObject);
                 return;
             }
             Instance = (T)this;

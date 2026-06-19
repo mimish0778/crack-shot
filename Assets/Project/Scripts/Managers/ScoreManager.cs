@@ -16,7 +16,7 @@ namespace CrackShot
         public float ElapsedTime { get; private set; }
         public bool IsTimerRunning { get; private set; }
 
-        private const float MaxTime = 99 * 60 + 59.99f;
+        private const float MaxTime = 999.999f;
         private const int MaxShots = 99;
         private const int DefaultPar = 3;
 
@@ -113,32 +113,36 @@ namespace CrackShot
             OnParChanged.Invoke(Par);
         }
 
+        // 「秒.ミリ秒」表記（分は使わない・最大 999.999）。unityroom ランキングの桁構成と揃える。
         public static string GetTimeString(float time)
         {
-            int minutes = (int)(time / 60);
-            int seconds = (int)(time % 60);
-            int millis = (int)((time % 1) * 100);
-            return $"{minutes:00}:{seconds:00}.{millis:00}";
+            int totalMillis = Mathf.Clamp((int)(time * 1000f), 0, (int)(MaxTime * 1000f));
+            return $"{totalMillis / 1000:000}.{totalMillis % 1000:000}";
         }
 
-        // unityroom ランキング用の合成スコア。打数を整数部、ゲーム内タイマー(MM:SS.cc)を小数6桁に詰める。
-        // 例: 2打 / 00:07.27 → 2.000727。打数が少ない順 → 同打数はタイムが短い順、で「小さいほど上位」になる。
+        // unityroom ランキング用の合成スコア（3桁区切り整数表示・昇順）。
+        // 桁構成: 打数×1,000,000 + 秒×1,000 + ミリ秒 → カンマ区切りで [打数],[秒],[ミリ秒] と読める。
+        // 例: 2打 / 7.027秒 → 2,007,027。「打数が少ない順 → 同打数はタイムが短い順」で小さいほど上位(HighScoreAsc)。
+        // float送信のため打数15以下はミリ秒まで厳密、16以上は末尾がわずかに丸まる（下位順位のみで実用上無視可）。
+        private const int MaxRankingMillis = 999 * 1000 + 999; // 999.999秒（約16分）で頭打ち。
         public static float CalcRankingScore(int shots, float time)
         {
-            int totalCentis = Mathf.Clamp(Mathf.RoundToInt(time * 100f), 0, (int)(MaxTime * 100f));
-            int minutes = totalCentis / 6000;
-            int seconds = (totalCentis / 100) % 60;
-            int centis = totalCentis % 100;
-            int mmsscc = minutes * 10000 + seconds * 100 + centis;
-            return shots + mmsscc / 1_000_000f;
+            int totalMillis = Mathf.Clamp(Mathf.RoundToInt(time * 1000f), 0, MaxRankingMillis);
+            return shots * 1_000_000 + (totalMillis / 1000) * 1_000 + totalMillis % 1000;
         }
 
-        // ステージインデックス(0始まり)に対応するボード(1始まり)へ、今回の打数＋タイムを送信する。
+        // unityroom のスコアボードは2枠のみ使用。ステージ3・4(index 2・3)だけをボード1・2へ送る。
         // 昇順ボード(HighScoreAsc)なのでサーバー側が自動でベストのみ保持する。
+        private const int FirstRankedStageIndex = 2; // ステージ3 → ボード1、ステージ4 → ボード2。
         public void SubmitRanking(int stageIndex)
         {
+            int boardNo = stageIndex - FirstRankedStageIndex + 1;
+            if (boardNo < 1 || boardNo > 2)
+            {
+                return; // ステージ1・2はランキング対象外。
+            }
             UnityroomApiClient.Instance?.SendScore(
-                stageIndex + 1, CalcRankingScore(ShotCount, ElapsedTime), ScoreboardWriteMode.HighScoreAsc);
+                boardNo, CalcRankingScore(ShotCount, ElapsedTime), ScoreboardWriteMode.HighScoreAsc);
         }
     }
 }

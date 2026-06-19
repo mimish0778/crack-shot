@@ -112,7 +112,7 @@ namespace CrackShot
                 }
                 if (bestTimeText != null)
                 {
-                    bestTimeText.text = "--:--.--";
+                    bestTimeText.text = "---.---";
                 }
                 if (bestLabelText != null)
                 {
@@ -131,7 +131,7 @@ namespace CrackShot
                 {
                     bestTimeText.text = bestTime >= 0
                         ? ScoreManager.GetTimeString(bestTime)
-                        : "--:--.--";
+                        : "---.---";
                 }
 
                 if (bestLabelText != null && stageData != null)
