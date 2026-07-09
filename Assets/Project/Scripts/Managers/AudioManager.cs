@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CrackShot
 {
     [System.Serializable]
     public class SoundCue
     {
-        public AudioClip clip;
-        [Range(0f, 2f)] public float volume = 1.0f;
-        [Range(0.5f, 2f)] public float pitch = 1.0f;
+        [FormerlySerializedAs("clip")] public AudioClip Clip;
+        [FormerlySerializedAs("volume")] [Range(0f, 2f)] public float Volume = 1.0f;
+        [FormerlySerializedAs("pitch")] [Range(0.5f, 2f)] public float Pitch = 1.0f;
     }
 
     public class AudioManager : PersistentSingleton<AudioManager>
@@ -79,7 +80,7 @@ namespace CrackShot
         {
             foreach (var cue in AllCues())
             {
-                cue.volume = 1.0f;
+                cue.Volume = 1.0f;
             }
         }
 
@@ -88,7 +89,7 @@ namespace CrackShot
         {
             foreach (var cue in AllCues())
             {
-                cue.pitch = 1.0f;
+                cue.Pitch = 1.0f;
             }
         }
 
@@ -129,12 +130,12 @@ namespace CrackShot
 
         private void PlaySE(SoundCue cue, float volumeMultiplier = 1.0f, float pitchMultiplier = 1.0f)
         {
-            if (cue?.clip == null || seSource == null)
+            if (cue?.Clip == null || seSource == null)
             {
                 return;
             }
-            seSource.pitch = cue.pitch * pitchMultiplier;
-            seSource.PlayOneShot(cue.clip, cue.volume * volumeMultiplier);
+            seSource.pitch = cue.Pitch * pitchMultiplier;
+            seSource.PlayOneShot(cue.Clip, cue.Volume * volumeMultiplier);
         }
 
         public void PlayShot(float volumeMultiplier = 1.0f) => PlaySE(shot, volumeMultiplier);

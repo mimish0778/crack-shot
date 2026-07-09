@@ -13,7 +13,6 @@ namespace CrackShot
         [FormerlySerializedAs("par")]
         public int Par = 3;
         [FormerlySerializedAs("ballStartPositions")]
-        [Tooltip("ステージオブジェクト原点からの相対座標。実際のスポーン位置は stageObject.position + この値。")]
         public Vector3[] BallStartPositions = new Vector3[BallCount]
         {
             new Vector3( 0f, 0.5f, 0f),
@@ -21,7 +20,6 @@ namespace CrackShot
             new Vector3(-3f, 0.5f, 3f),
         };
 
-        [Tooltip("背景演出（CyberSpaceBackground）の Z 方向オフセット。ステージごとの奥行きの見え方を調整する。")]
         public float BackgroundZOffset = 20f;
 
         private void OnValidate()

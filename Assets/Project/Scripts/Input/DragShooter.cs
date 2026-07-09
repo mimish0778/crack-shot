@@ -8,9 +8,7 @@ namespace CrackShot
         [Header("Drag Arrow")]
         [SerializeField] private float maxDragDistance = 7f;
         [SerializeField] private float dragPlaneY = 0.5f;
-        [Tooltip("ドラッグ開始時に球を掴める最大距離。クリック位置と球の距離がこれ以上なら掴まない。")]
         [SerializeField] private float grabMaxDistance = 1.5f;
-        [Tooltip("ショットが成立する最小ドラッグ量。これ未満は誤操作としてキャンセル扱いにする。")]
         [SerializeField] private float minDragToShoot = 0.05f;
         [SerializeField] private int arrowSegments = 20;
         [SerializeField] private float arrowWidthStart = 0.2f;

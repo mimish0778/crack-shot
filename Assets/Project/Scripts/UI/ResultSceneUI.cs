@@ -20,11 +20,8 @@ namespace CrackShot
         [SerializeField] private float itemInterval = 0.3f;
         [SerializeField] private float fadeInTime = 0.3f;
         [SerializeField] private float scoreDelay = 0.3f;
-        [Tooltip("表示開始までの最初の溜め。")]
         [SerializeField] private float initialRevealDelay = 0.3f;
-        [Tooltip("ボタンを順番にフェードインさせる間隔。")]
         [SerializeField] private float buttonRevealInterval = 0.1f;
-        [Tooltip("スコア各行デコードのノイズ／確定インターバル。")]
         [SerializeField] private float decodeNoiseInterval = 0.012f;
         [SerializeField] private float decodeConfirmInterval = 0.015f;
 
@@ -44,7 +41,7 @@ namespace CrackShot
             selectButton?.onClick.AddListener(OnSelectClicked);
             nextStageButton?.onClick.AddListener(OnNextStageClicked);
 
-            if (stageNameText && StageManager.Instance?.CurrentStageData != null)
+            if (stageNameText != null && StageManager.Instance?.CurrentStageData != null)
             {
                 stageNameText.text = StageManager.Instance.CurrentStageData.StageName;
             }
@@ -98,28 +95,28 @@ namespace CrackShot
 
             yield return new WaitForSeconds(initialRevealDelay);
 
-            if (parText)
+            if (parText != null)
             {
                 AudioManager.Instance?.PlayResultReveal();
                 yield return StartCoroutine(Decode(parText, $"Par: {par}"));
             }
             yield return new WaitForSeconds(itemInterval);
 
-            if (shotCountText)
+            if (shotCountText != null)
             {
                 AudioManager.Instance?.PlayResultReveal(SemitoneRatio);
                 yield return StartCoroutine(Decode(shotCountText, $"Shots: {shot}"));
             }
             yield return new WaitForSeconds(itemInterval);
 
-            if (timerText)
+            if (timerText != null)
             {
                 AudioManager.Instance?.PlayResultReveal(SemitoneRatio * SemitoneRatio);
                 yield return StartCoroutine(Decode(timerText, timeStr));
             }
             yield return new WaitForSeconds(itemInterval + scoreDelay);
 
-            if (labelText && !string.IsNullOrEmpty(label))
+            if (labelText != null && !string.IsNullOrEmpty(label))
             {
                 bool isUnderPar = ScoreManager.Instance.ScoreToPar < 0;
                 AudioManager.Instance?.PlayResultLabel();

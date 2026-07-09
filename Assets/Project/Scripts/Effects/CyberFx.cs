@@ -291,10 +291,12 @@ namespace CrackShot
             });
 
             foreach (var p in particles)
+            {
                 if (p.Go != null)
                 {
                     Object.Destroy(p.Go);
                 }
+            }
         }
 
         private static readonly Gradient TrailGradient = new Gradient();

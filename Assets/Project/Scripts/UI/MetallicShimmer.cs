@@ -18,22 +18,22 @@ namespace CrackShot
         private static readonly Color[] Highlights =
         {
             new Color(1f, 0.88f, 0.55f),
-            new Color(1f, 1f, 1f ),
+            new Color(1f, 1f, 1f),
             new Color(1f, 1f, 0.72f),
-            new Color(0.85f, 0.55f, 1f ),
+            new Color(0.85f, 0.55f, 1f),
         };
         private static readonly Color[] Mids =
         {
-            new Color(0.72f, 0.45f, 0.2f ),
+            new Color(0.72f, 0.45f, 0.2f),
             new Color(0.72f, 0.72f, 0.76f),
-            new Color(1f, 0.82f, 0.1f ),
+            new Color(1f, 0.82f, 0.1f),
             new Color(0.48f, 0.05f, 0.72f),
         };
         private static readonly Color[] Darks =
         {
             new Color(0.28f, 0.16f, 0.06f),
             new Color(0.28f, 0.28f, 0.32f),
-            new Color(0.45f, 0.32f, 0f ),
+            new Color(0.45f, 0.32f, 0f),
             new Color(0.14f, 0f, 0.22f),
         };
 
@@ -66,8 +66,8 @@ namespace CrackShot
         {
             _text = GetComponent<TMP_Text>();
             _highlight = Highlights[(int)tier];
-            _mid = Mids [(int)tier];
-            _dark = Darks [(int)tier];
+            _mid = Mids[(int)tier];
+            _dark = Darks[(int)tier];
 
             _topBase = Color.Lerp(_mid, _highlight, 0.5f);
             _bottomBaseStart = Color.Lerp(_dark, _mid, 0.45f);

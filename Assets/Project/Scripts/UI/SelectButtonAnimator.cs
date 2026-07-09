@@ -14,7 +14,6 @@ namespace CrackShot
         [SerializeField] private Image iconImage;
 
         [Header("Stage Icon")]
-        [Tooltip("Icons corresponding to the selected stage number (1-based). Index 0 = Stage 1.")]
         [SerializeField] private Sprite[] stageIcons;
 
         private Canvas _canvas;
@@ -116,10 +115,12 @@ namespace CrackShot
             });
 
             foreach (var sq in squares)
+            {
                 if (sq != null)
                 {
                     Destroy(sq.gameObject);
                 }
+            }
 
             if (iconImage)
             {
