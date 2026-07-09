@@ -78,3 +78,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Pp]roject/[Aa]udio/*.mp3
 /[Aa]ssets/[Pp]roject/[Aa]udio/*.wav
 /[Aa]ssets/[Pp]roject/[Aa]udio/*.meta
+
+# unityroom HMAC key
+/[Aa]ssets/[Pp]roject/[Rr]esources/HmacKey.txt
+/[Aa]ssets/[Pp]roject/[Rr]esources/HmacKey.txt.meta

@@ -38,7 +38,7 @@ namespace CrackShot
 
         public void UpdateShotCount(int count)
         {
-            if (!shotCountText)
+            if (shotCountText == null)
             {
                 return;
             }
@@ -47,12 +47,12 @@ namespace CrackShot
                 CyberText.Scramble(shotCountText, $"Shots: {count}", CyberFx.Pink, Color.white));
         }
 
-        public void UpdatePar(int par) { if (parText) { parText.text = $"Par: {par}"; } }
-        public void UpdateTimer(float time) { if (timerText) { timerText.text = ScoreManager.GetTimeString(time); } }
+        public void UpdatePar(int par) { if (parText != null) { parText.text = $"Par: {par}"; } }
+        public void UpdateTimer(float time) { if (timerText != null) { timerText.text = ScoreManager.GetTimeString(time); } }
 
         public void ShowFailedMessage(FailReason reason, float visibleDuration = 2f)
         {
-            if (!failedMessageText)
+            if (failedMessageText == null)
             {
                 return;
             }
@@ -65,7 +65,7 @@ namespace CrackShot
         public void HideMessage()
         {
             StopAllCoroutines();
-            if (failedMessageText)
+            if (failedMessageText != null)
             {
                 failedMessageText.gameObject.SetActive(false);
             }
