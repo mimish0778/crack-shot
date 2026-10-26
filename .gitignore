@@ -82,3 +82,8 @@ crashlytics-build.properties
 # unityroom HMAC key
 /[Aa]ssets/[Pp]roject/[Rr]esources/HmacKey.txt
 /[Aa]ssets/[Pp]roject/[Rr]esources/HmacKey.txt.meta
+
+# Editor settings
+.vscode/
+.idea/
+.DS_Store
