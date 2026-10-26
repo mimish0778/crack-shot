@@ -77,3 +77,9 @@
 *.a     binary
 *.cubemap     binary
 *.unitypackage binary
+
+#############################
+# 言語の集計 (GitHub Linguist)
+# Unity が取り込んだ TextMesh Pro のシェーダーなどは自作コードではないため集計から除外する
+#############################
+Assets/TextMesh[[:space:]]Pro/** linguist-vendored
