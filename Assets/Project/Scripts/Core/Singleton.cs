@@ -26,6 +26,16 @@ namespace CrackShot
         }
 
         protected virtual void OnAwake() { }
+
+        // シーンの切り替えなどで破棄されたら参照を外す。外さないと Instance が破棄済みの
+        // オブジェクトを指したままになり、Instance?.Foo() が null 判定をすり抜けて例外になる
+        protected virtual void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
     }
 
     public abstract class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>
