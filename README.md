@@ -6,7 +6,6 @@
 
 **unityroom でプレイ:** https://unityroom.com/games/crack-shot
 
-プレイ動画: [Video.mp4](Video.mp4)
 
 ## 遊び方
 
