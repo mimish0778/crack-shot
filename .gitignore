@@ -87,3 +87,8 @@ crashlytics-build.properties
 .vscode/
 .idea/
 .DS_Store
+
+# Unity を使わずに判定ロジックを検証するテストプロジェクト（tests/）
+!/tests/**/*.csproj
+/tests/**/[Bb]in/
+/tests/**/[Oo]bj/

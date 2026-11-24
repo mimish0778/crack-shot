@@ -16,16 +16,14 @@ namespace CrackShot
         public float ElapsedTime { get; private set; }
         public bool IsTimerRunning { get; private set; }
 
-        private const float MaxTime = 999.999f;
-        private const int MaxShots = 99;
         private const int DefaultPar = 3;
 
-        public const int CondorThreshold = -4;
-        public const int AlbatrossThreshold = -3;
-        public const int EagleThreshold = -2;
-        public const int BirdieThreshold = -1;
+        public const int CondorThreshold = ScoreRules.CondorThreshold;
+        public const int AlbatrossThreshold = ScoreRules.AlbatrossThreshold;
+        public const int EagleThreshold = ScoreRules.EagleThreshold;
+        public const int BirdieThreshold = ScoreRules.BirdieThreshold;
 
-        public const int MaxNamedOverParDiff = 3;
+        public const int MaxNamedOverParDiff = ScoreRules.MaxNamedOverParDiff;
 
         private void Update()
         {
@@ -33,7 +31,7 @@ namespace CrackShot
             {
                 return;
             }
-            ElapsedTime = Mathf.Min(ElapsedTime + Time.deltaTime, MaxTime);
+            ElapsedTime = Mathf.Min(ElapsedTime + Time.deltaTime, ScoreRules.MaxTime);
             OnTimeChanged.Invoke(ElapsedTime);
         }
 
@@ -48,7 +46,7 @@ namespace CrackShot
 
         public void AddShot()
         {
-            ShotCount = Mathf.Min(ShotCount + 1, MaxShots);
+            ShotCount = ScoreRules.AddShot(ShotCount);
             OnShotCountChanged.Invoke(ShotCount);
         }
 
@@ -56,18 +54,7 @@ namespace CrackShot
 
         public string GetLabel() => GetLabel(ScoreToPar);
 
-        public static string GetLabel(int diff) => diff switch
-        {
-            <= CondorThreshold => "CONDOR",
-            AlbatrossThreshold => "ALBATROSS",
-            EagleThreshold => "EAGLE",
-            BirdieThreshold => "BIRDIE",
-            0 => "PAR",
-            1 => "BOGEY",
-            2 => "DOUBLE BOGEY",
-            3 => "TRIPLE BOGEY",
-            _ => $"+{diff}",
-        };
+        public static string GetLabel(int diff) => ScoreRules.GetLabel(diff);
 
         public (int shot, int par, string label) GetResult() => (ShotCount, Par, GetLabel());
 
@@ -78,22 +65,14 @@ namespace CrackShot
         {
             string scoreKey = ScoreKey(stageIndex);
             string timeKey = TimeKey(stageIndex);
-            int current = PlayerPrefs.GetInt(scoreKey, int.MaxValue);
+            int bestShots = PlayerPrefs.GetInt(scoreKey, int.MaxValue);
+            float bestTime = PlayerPrefs.GetFloat(timeKey, float.MaxValue);
 
-            if (ShotCount < current)
+            if (ScoreRules.IsNewBest(ShotCount, ElapsedTime, bestShots, bestTime))
             {
                 PlayerPrefs.SetInt(scoreKey, ShotCount);
                 PlayerPrefs.SetFloat(timeKey, ElapsedTime);
                 PlayerPrefs.Save();
-            }
-            else if (ShotCount == current)
-            {
-                float currentTime = PlayerPrefs.GetFloat(timeKey, float.MaxValue);
-                if (ElapsedTime < currentTime)
-                {
-                    PlayerPrefs.SetFloat(timeKey, ElapsedTime);
-                    PlayerPrefs.Save();
-                }
             }
         }
 
@@ -113,24 +92,14 @@ namespace CrackShot
             OnParChanged.Invoke(Par);
         }
 
-        public static string GetTimeString(float time)
-        {
-            int totalMillis = Mathf.Clamp((int)(time * 1000f), 0, (int)(MaxTime * 1000f));
-            return $"{totalMillis / 1000:000}.{totalMillis % 1000:000}";
-        }
+        public static string GetTimeString(float time) => ScoreRules.FormatTime(time);
 
-        private const int MaxRankingMillis = 999 * 1000 + 999;
-        public static float CalcRankingScore(int shots, float time)
-        {
-            int totalMillis = Mathf.Clamp(Mathf.RoundToInt(time * 1000f), 0, MaxRankingMillis);
-            return shots * 1_000_000 + (totalMillis / 1000) * 1_000 + totalMillis % 1000;
-        }
+        public static float CalcRankingScore(int shots, float time) => ScoreRules.CalcRankingScore(shots, time);
 
-        private const int FirstRankedStageIndex = 2;
         public void SubmitRanking(int stageIndex)
         {
-            int boardNo = stageIndex - FirstRankedStageIndex + 1;
-            if (boardNo < 1 || boardNo > 2)
+            int boardNo = ScoreRules.GetRankingBoardNo(stageIndex);
+            if (boardNo == 0)
             {
                 return;
             }

@@ -85,8 +85,9 @@ namespace CrackShot
             {
                 return false;
             }
-            ballA = Balls[(shooterIndex + 1) % BallCount];
-            ballB = Balls[(shooterIndex + 2) % BallCount];
+            var (a, b) = GateGeometry.GateBallIndices(shooterIndex, BallCount);
+            ballA = Balls[a];
+            ballB = Balls[b];
             return ballA != null && ballB != null;
         }
     }

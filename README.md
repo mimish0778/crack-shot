@@ -1,5 +1,7 @@
 # CRACK-SHOT
 
+[![test](https://github.com/mimish0778/crack-shot/actions/workflows/test.yml/badge.svg)](https://github.com/mimish0778/crack-shot/actions/workflows/test.yml)
+
 2 つの球の間を通してからホールに入れる、3D のミニゴルフパズルゲームです。Unity で制作しました。
 
 ![CRACK-SHOT のプレイ画面](docs/screenshot.png)
@@ -103,9 +105,24 @@ Assets/Project/
     ├── Effects/    演出
     ├── Input/      入力とドラッグショット
     ├── Managers/   ゲーム進行、スコア、音、設定、シーン遷移
+    ├── Rules/      GATE の交差判定やスコア計算など、UnityEngine に依存しない判定ロジック
     ├── Stage/      GATE の判定、ホール、動く障害物
     └── UI/         各シーンの画面
+tests/
+└── CrackShot.Tests/  Rules/ と Ease のユニットテスト（NUnit）
 ```
+
+## テスト
+
+GATE の交差判定、スコアの呼び名、タイム表示、ランキング用スコア、自己ベストの判定、打球音の音量カーブといった判定ロジックを `Assets/Project/Scripts/Rules/` に切り出し、NUnit でテストしています。
+
+これらのファイルは UnityEngine に依存しないため、Unity エディタやライセンスがなくても .NET SDK だけで実行できます。テストプロジェクトは `Assets/` 以下のファイルを直接コンパイルするので、ロジックに UnityEngine への依存が入るとビルドが失敗して気づけます。
+
+```bash
+dotnet test tests/CrackShot.Tests
+```
+
+.NET 8 SDK が必要です。GitHub Actions でも push と pull request のたびに実行しています。
 
 ## クレジット
 

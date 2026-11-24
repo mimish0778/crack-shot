@@ -10,7 +10,6 @@ namespace CrackShot
         [SerializeField] [Range(0f, 1f)] private float teleportOutVolume = TeleportAnimator.DefaultRewindOutVolume;
         [SerializeField] [Range(0f, 1f)] private float teleportInVolume = TeleportAnimator.DefaultRewindInVolume;
 
-        private const float ParallelEpsilon = 0.0001f;
         private const float MovedThreshold = 0.1f;
         private const float SuccessHoldTime = 1.0f;
         private const float FailDelayTime = 0.5f;
@@ -91,23 +90,8 @@ namespace CrackShot
             yield return StartCoroutine(_passed ? HandleSuccess() : HandleFailed(FailReason.DidNotPassThrough));
         }
 
-        private bool CrossedGateLine(Vector3 prev, Vector3 curr, Vector3 gateA, Vector3 gateB)
-        {
-            var p1 = new Vector2(prev.x, prev.z);
-            var p2 = new Vector2(curr.x, curr.z);
-            var p3 = new Vector2(gateA.x, gateA.z);
-            var p4 = new Vector2(gateB.x, gateB.z);
-            float d1x = p2.x - p1.x, d1y = p2.y - p1.y;
-            float d2x = p4.x - p3.x, d2y = p4.y - p3.y;
-            float cross = d1x * d2y - d1y * d2x;
-            if (Mathf.Abs(cross) < ParallelEpsilon)
-            {
-                return false;
-            }
-            float t = ((p3.x - p1.x) * d2y - (p3.y - p1.y) * d2x) / cross;
-            float u = ((p3.x - p1.x) * d1y - (p3.y - p1.y) * d1x) / cross;
-            return t >= 0f && t <= 1f && u >= 0f && u <= 1f;
-        }
+        private static bool CrossedGateLine(Vector3 prev, Vector3 curr, Vector3 gateA, Vector3 gateB)
+            => GateGeometry.SegmentsIntersect(prev.x, prev.z, curr.x, curr.z, gateA.x, gateA.z, gateB.x, gateB.z);
 
         private IEnumerator HandleSuccess()
         {

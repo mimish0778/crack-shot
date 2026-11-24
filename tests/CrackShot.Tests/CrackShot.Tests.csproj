@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Unity エディタを使わずに、ゲームの判定ロジックだけを dotnet test で検証するプロジェクト。
+    Assets/ 以下の UnityEngine に依存しないファイルだけを直接コンパイルするので、
+    そこに UnityEngine への参照が入るとここでビルドエラーになる。
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Unity 2022.3 と同じ C# 9 に合わせ、Unity でコンパイルできない構文を使わないようにする -->
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../Assets/Project/Scripts/Rules/*.cs" Link="Rules/%(Filename)%(Extension)" />
+    <Compile Include="../../Assets/Project/Scripts/Core/Ease.cs" Link="Core/Ease.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>

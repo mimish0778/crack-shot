@@ -165,9 +165,7 @@ namespace CrackShot
 
             GameManager.Instance?.ChangeState(GameManager.GameState.Shooting);
             ScoreManager.Instance?.AddShot();
-            float dragRatio = Mathf.Clamp01(dragDelta.magnitude / maxDragDistance);
-            float eased = Mathf.Sqrt(dragRatio);
-            float volumeRatio = Mathf.Lerp(minShotVolumeRatio, 1f, eased);
+            float volumeRatio = ShotRules.ShotVolumeRatio(dragDelta.magnitude, maxDragDistance, minShotVolumeRatio);
             AudioManager.Instance?.PlayShot(volumeRatio);
             HoleGoal.Instance?.ResetForNextShot();
 
